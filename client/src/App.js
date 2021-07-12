@@ -3,6 +3,7 @@ import { HashRouter } from "react-router-dom";
 import Routes from "./routes";
 import { ThemeProvider } from "react-jss";
 import Theme from "./resources/theme";
+import "./App.css";
 
 const App = () => {
   return (
