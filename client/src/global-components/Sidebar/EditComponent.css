@@ -1,0 +1,14 @@
+.editcomponent {
+  font-family: Poppins;
+  font-size: 13px;
+  color: #34495e;
+}
+
+.editcomponent__input {
+  border: 1px solid #cecece;
+  outline: none;
+  padding: 5px;
+  color: #34495e;
+  font-size: 13px;
+  margin-top: 5px;
+}
