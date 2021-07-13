@@ -48,6 +48,7 @@ const DashBoard = () => {
         content: {
           title: "CARD TITLE",
           text: "fgjs",
+          components: [],
         },
       },
     ]);

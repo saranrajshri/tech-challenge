@@ -17,12 +17,20 @@ const reducer = (state, action) => {
       return { ...state, selectedComponentIndex: action.payload };
     case "UPDATE_COMPONENT_DATA":
       const componentIdToFind = action.payload.data.id;
-      state.componentsList[state.selectedComponentIndex].content[
-        action.payload.key
-      ] = action.payload.value;
+      if (action.payload.componentClass === "") {
+        state.componentsList[state.selectedComponentIndex][
+          action.payload.editKey
+        ][action.payload.key] = action.payload.value;
+      } else {
+        state.componentsList[state.selectedComponentIndex][
+          action.payload.editKey
+        ][action.payload.componentClass][action.payload.key] =
+          action.payload.value;
+      }
       return {
         ...state,
       };
+
     default:
       throw new Error();
   }
