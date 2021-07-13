@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import { Context } from "../../context/Context";
+import DataTable from "react-data-table-component";
 
 const Card = ({ customStyles, content, id }) => {
   const [state] = useContext(Context);
@@ -8,20 +9,9 @@ const Card = ({ customStyles, content, id }) => {
   const renderComponent = (component, index) => {
     var newComponent;
     if (component.type === "table") {
+      console.log(component.columns);
       newComponent = (
-        <table id={index}>
-          {component.headers.map((header, headerIndex) => {
-            return <th index={headerIndex}>{header}</th>;
-          })}
-          
-          var size = component.content.length;
-          for(var i = 0; i < size; i++) {
-
-          }
-          {component.content.map((tableRow, tableRowIndex) => {
-            return <tr index={tableRowIndex}>{tableRow}</tr>;
-          })}
-        </table>
+        <DataTable title="" columns={component.columns} data={component.data} />
       );
     }
     return newComponent;

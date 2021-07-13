@@ -3,6 +3,8 @@ import { Context } from "../../context/Context";
 import "./EditComponent.css";
 import { Row, Column } from "simple-flexbox";
 import uuid from "react-uuid";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTable } from "@fortawesome/free-solid-svg-icons";
 
 const EditComponent = () => {
   const [state, dispatch] = useContext(Context);
@@ -28,12 +30,44 @@ const EditComponent = () => {
     selectedComponent.content.components.push({
       type: "table",
       id: uuid(),
-      headers: ["one", "two", "three"],
-      content: [
-        ["d", "", ""],
-        ["", "", ""],
-        ["", "", ""],
+      columns: [
+        {
+          name: "Title",
+          selector: "title",
+          sortable: true,
+        },
+        {
+          name: "Year",
+          selector: "year",
+          sortable: true,
+          right: true,
+        },
       ],
+      data: [
+        { id: 1, title: "Conan the Barbarian", year: "1982" },
+        { id: 1, title: "Conan the Barbarian", year: "1982" },
+      ],
+      styles: {
+        table: {
+          width: "100%",
+          fontFamily: "Poppins",
+          border: "1px solid #EEEEEE",
+          borderCollapse: "collapse",
+        },
+        tableHeader: {
+          display: "flex",
+          width: "100%",
+          color: "#fff",
+          backgroundColor: "#2c3e50",
+        },
+        tableRow: {
+          display: "flex",
+          width: "100%",
+        },
+        tableCell: {
+          width: 100,
+        },
+      },
     });
 
     dispatch({
@@ -92,8 +126,14 @@ const EditComponent = () => {
           </Row>
           <div className="editcomponent__seperator"></div>
           <label className="editcomponent__uppercaseText">CONTENT</label>
-
-          <button onClick={addTable}>add table</button>
+          <Row>
+            <Column>
+              <button className="editcomponent__iconButton" onClick={addTable}>
+                <FontAwesomeIcon icon={faTable} />
+              </button>
+            </Column>
+            <Column></Column>
+          </Row>
         </>
       ) : null}
     </div>

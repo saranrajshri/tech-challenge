@@ -29,3 +29,20 @@
   text-transform: uppercase;
   margin-bottom: 2em;
 }
+
+.editcomponent__iconButton {
+  margin-top: 0.5em;
+  margin-right: 0.6em;
+  background-color: #bdc3c7;
+  color: #36454f;
+  border: none;
+  outline: none;
+  padding: 0.5em;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.editcomponent__iconButton:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
