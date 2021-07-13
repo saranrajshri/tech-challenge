@@ -3,6 +3,7 @@ import Card from "../../global-components/Card/Card";
 import "./DashBoard.css";
 import uuid from "react-uuid";
 import { Context } from "../../context/Context";
+import Draggable from "react-draggable";
 
 const DashBoard = () => {
   const [state, dispatch] = useContext(Context);
@@ -16,42 +17,61 @@ const DashBoard = () => {
   const forceUpdate = useForceUpdate();
 
   // Handle Each component click
-  const handleClick = () => {
-    setComponentsList([
-      ...componentsList,
-      {
-        id: uuid(),
-        type: "card",
-        styles: {
-          card: {
-            backgroundColor: "#fff",
-            margin: 10,
-            border: "1px solid #cecece",
-            width: 400,
-            position: "absolute",
-            userSelect: "none",
+  const handleClick = (componentType) => {
+    if (componentType === "card") {
+      setComponentsList([
+        ...componentsList,
+        {
+          id: uuid(),
+          type: "card",
+          styles: {
+            card: {
+              backgroundColor: "#fff",
+              margin: 10,
+              border: "1px solid #cecece",
+              width: 400,
+              position: "absolute",
+              userSelect: "none",
+            },
+            cardHeader: {
+              backgroundColor: "#fdfdfd",
+              borderBottom: "1px solid #e4e4e4",
+              paddingLeft: 20,
+              paddingRight: 20,
+              paddingBottom: 10,
+              paddingTop: 10,
+              fontFamily: "Poppins",
+              color: "#34495e",
+            },
+            cardContent: {
+              padding: 20,
+            },
           },
-          cardHeader: {
-            backgroundColor: "#fdfdfd",
-            borderBottom: "1px solid #e4e4e4",
-            paddingLeft: 20,
-            paddingRight: 20,
-            paddingBottom: 10,
-            paddingTop: 10,
-            fontFamily: "Poppins",
-            color: "#34495e",
-          },
-          cardContent: {
-            padding: 20,
+          content: {
+            title: "CARD TITLE",
+            text: "fgjs",
+            components: [],
           },
         },
-        content: {
-          title: "CARD TITLE",
-          text: "fgjs",
-          components: [],
+      ]);
+    } else if (componentType === "text") {
+      setComponentsList([
+        ...componentsList,
+        {
+          id: uuid(),
+          type: "text",
+          styles: {
+            text: {
+              fontFamily: "Poppins",
+              margin: 10,
+              position: "absolute",
+              userSelect: "none",
+            },
+          },
+          content: "TITLTE",
         },
-      },
-    ]);
+      ]);
+    }
   };
 
   const handleComponentClick = (componentId) => {
@@ -86,7 +106,9 @@ const DashBoard = () => {
 
   return (
     <div>
-      <button onClick={handleClick}>create</button>
+      <button onClick={() => handleClick("card")}>create add</button>
+      <button onClick={() => handleClick("text")}>create add</button>
+
       {componentsList.map((component) => {
         if (component.type === "card") {
           return (
@@ -100,6 +122,18 @@ const DashBoard = () => {
                 customStyles={component.styles}
                 content={component.content}
               />
+            </div>
+          );
+        } else if (component.type === "text") {
+          return (
+            <div
+              onDoubleClick={() => {
+                handleComponentClick(component.id);
+              }}
+            >
+              <Draggable>
+                <p>{component.content}</p>
+              </Draggable>
             </div>
           );
         }
