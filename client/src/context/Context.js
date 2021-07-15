@@ -31,6 +31,13 @@ const reducer = (state, action) => {
       return {
         ...state,
       };
+    case "UPDATE_GRAPH":
+      if (action.payload.operation === "changeTitle") {
+        state.componentsList[
+          state.selectedComponentIndex
+        ].data.options.title.text = action.payload.data.title;
+      }
+      return { ...state };
 
     default:
       throw new Error();

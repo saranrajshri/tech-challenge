@@ -4,7 +4,7 @@ import { faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditComponent from "./EditComponent";
 
-const Sidebar = ({ addComponent }) => {
+const Sidebar = ({ addComponent, reFetchComponentsList }) => {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -15,6 +15,7 @@ const Sidebar = ({ addComponent }) => {
       </div>
       <div className="sidebar__content" style={{ padding: 10 }}>
         <EditComponent
+          reFetchComponentsList={reFetchComponentsList}
           addComponent={(componentType) => addComponent(componentType)}
         />
       </div>

@@ -5,13 +5,16 @@ import { Row, Column } from "simple-flexbox";
 import uuid from "react-uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faBars,
   faCalculator,
   faCaretLeft,
+  faChartBar,
+  faChartLine,
   faTable,
   faTextHeight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const EditComponent = ({ addComponent }) => {
+const EditComponent = ({ addComponent, reFetchComponentsList }) => {
   const [state, dispatch] = useContext(Context);
   const [componentsList, setComponentsList] = useState(state.componentsList);
 
@@ -88,6 +91,22 @@ const EditComponent = ({ addComponent }) => {
     dispatch({ type: "SET_SELECTED_COMPONENT_LIST", payload: -1 });
   };
 
+  const handleGraphChange = (e, operation) => {
+    if (operation === "changeTitle") {
+      dispatch({
+        type: "UPDATE_GRAPH",
+        payload: {
+          operation: "changeTitle",
+          data: {
+            title: e.target.value,
+          },
+        },
+      });
+
+      // console.log(state.componentsList[state.selectedComponentIndex]);
+      reFetchComponentsList();
+    }
+  };
   return (
     <div className="editcomponent">
       {state.componentsList[state.selectedComponentIndex] !== undefined ? (
@@ -175,7 +194,22 @@ const EditComponent = ({ addComponent }) => {
               }
             />
           </>
-        ) : null
+        ) : (
+          // Graph options
+          <>
+            <label>Title </label>
+            <input
+              type="text"
+              className="editcomponent__input"
+              onChange={(e) => handleGraphChange(e, "changeTitle")}
+              name="title"
+              defaultValue={
+                state.componentsList[state.selectedComponentIndex].data.options
+                  .title.text
+              }
+            />
+          </>
+        )
       ) : (
         <>
           <label className="editcomponent__uppercaseText">ADD COMPONENTS</label>
@@ -194,6 +228,20 @@ const EditComponent = ({ addComponent }) => {
             title="Text"
           >
             <FontAwesomeIcon icon={faTextHeight} />
+          </button>
+          <button
+            onClick={() => addComponent("lineChart")}
+            className="editcomponent__iconButton"
+            title="Line Chart"
+          >
+            <FontAwesomeIcon icon={faChartLine} />
+          </button>
+          <button
+            onClick={() => addComponent("barChart")}
+            className="editcomponent__iconButton"
+            title="Bar Chart"
+          >
+            <FontAwesomeIcon icon={faChartBar} />
           </button>
         </>
       )}
