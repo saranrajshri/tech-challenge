@@ -4,6 +4,8 @@ import "./DashBoard.css";
 import uuid from "react-uuid";
 import { Context } from "../../context/Context";
 import Draggable from "react-draggable";
+import Sidebar from "../../global-components/Sidebar/Sidebar";
+import { Row, Column } from "simple-flexbox";
 
 const DashBoard = () => {
   const [state, dispatch] = useContext(Context);
@@ -64,11 +66,14 @@ const DashBoard = () => {
             text: {
               fontFamily: "Poppins",
               margin: 10,
+              fontSize: 12,
               position: "absolute",
               userSelect: "none",
             },
           },
-          content: "TITLTE",
+          content: {
+            text: "TITLE",
+          },
         },
       ]);
     }
@@ -86,10 +91,6 @@ const DashBoard = () => {
 
     const dummyComponentList = componentsList;
     const selectedComponent = dummyComponentList[selectedComponentIndex];
-    selectedComponent.styles.card = {
-      ...selectedComponent.styles.card,
-    };
-    selectedComponent.content.text = "fsgkhsfigh";
 
     setComponentsList(dummyComponentList);
 
@@ -105,40 +106,48 @@ const DashBoard = () => {
   };
 
   return (
-    <div>
-      <button onClick={() => handleClick("card")}>create add</button>
-      <button onClick={() => handleClick("text")}>create add</button>
-
-      {componentsList.map((component) => {
-        if (component.type === "card") {
-          return (
-            <div
-              onDoubleClick={() => {
-                handleComponentClick(component.id);
-              }}
-            >
-              <Card
-                id={component.id}
-                customStyles={component.styles}
-                content={component.content}
-              />
-            </div>
-          );
-        } else if (component.type === "text") {
-          return (
-            <div
-              onDoubleClick={() => {
-                handleComponentClick(component.id);
-              }}
-            >
-              <Draggable>
-                <p>{component.content}</p>
-              </Draggable>
-            </div>
-          );
-        }
-      })}
-    </div>
+    <>
+      <Row>
+        <Column flexGrow={9}>
+          {componentsList.map((component) => {
+            if (component.type === "card") {
+              return (
+                <div
+                  onDoubleClick={() => {
+                    handleComponentClick(component.id);
+                  }}
+                >
+                  <Card
+                    id={component.id}
+                    customStyles={component.styles}
+                    content={component.content}
+                  />
+                </div>
+              );
+            } else if (component.type === "text") {
+              return (
+                <div
+                  onDoubleClick={() => {
+                    handleComponentClick(component.id);
+                  }}
+                >
+                  <Draggable>
+                    <p style={component.styles.text}>
+                      {component.content.text}
+                    </p>
+                  </Draggable>
+                </div>
+              );
+            }
+          })}
+        </Column>
+        <Column flexGrow={3}>
+          <Sidebar
+            addComponent={(componentType) => handleClick(componentType)}
+          />
+        </Column>
+      </Row>
+    </>
   );
 };
 

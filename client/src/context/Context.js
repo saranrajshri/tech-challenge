@@ -6,6 +6,7 @@ const initialState = {
   isLoaderVisible: false,
   componentsList: [],
   selectedComponentIndex: -1,
+  reRenderCanvas: false,
 };
 
 // Reducers

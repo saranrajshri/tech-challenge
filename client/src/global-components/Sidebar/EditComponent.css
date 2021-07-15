@@ -13,13 +13,13 @@
   color: #34495e;
   font-size: 13px;
   margin-top: 5px;
+  margin-bottom: 20px;
 }
 
 .editcomponent__seperator {
   background-color: #bdc3c7;
   height: 1px;
   width: 100%;
-  margin-top: 1em;
   margin-bottom: 0.6em;
 }
 
@@ -45,4 +45,15 @@
 .editcomponent__iconButton:hover {
   opacity: 0.9;
   cursor: pointer;
+}
+
+.editComponent__backButton {
+  color: #7f8c8d;
+  font-size: 13px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+
+.editComponent__backButton:hover {
+  text-decoration: underline;
 }

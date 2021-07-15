@@ -36,7 +36,7 @@ function PrivateSection() {
             <PrivateRoutes />
           </div>
         </Column>
-        <SidebarComponent />
+        {/* <SidebarComponent /> */}
       </Row>
     </>
     // </SidebarContext>

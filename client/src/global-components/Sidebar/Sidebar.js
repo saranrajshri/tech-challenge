@@ -4,7 +4,7 @@ import { faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EditComponent from "./EditComponent";
 
-const Sidebar = () => {
+const Sidebar = ({ addComponent }) => {
   return (
     <div className="sidebar">
       <div className="sidebar__header">
@@ -14,7 +14,9 @@ const Sidebar = () => {
         </center>
       </div>
       <div className="sidebar__content" style={{ padding: 10 }}>
-        <EditComponent />
+        <EditComponent
+          addComponent={(componentType) => addComponent(componentType)}
+        />
       </div>
     </div>
   );

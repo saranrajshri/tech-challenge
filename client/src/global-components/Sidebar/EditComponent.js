@@ -4,10 +4,16 @@ import "./EditComponent.css";
 import { Row, Column } from "simple-flexbox";
 import uuid from "react-uuid";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTable } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalculator,
+  faCaretLeft,
+  faTable,
+  faTextHeight,
+} from "@fortawesome/free-solid-svg-icons";
 
-const EditComponent = () => {
+const EditComponent = ({ addComponent }) => {
   const [state, dispatch] = useContext(Context);
+  const [componentsList, setComponentsList] = useState(state.componentsList);
 
   const handleChange = (e, editKey, componentClass = "") => {
     dispatch({
@@ -78,63 +84,130 @@ const EditComponent = () => {
     console.log(dummyState);
   };
 
+  const handleBack = () => {
+    dispatch({ type: "SET_SELECTED_COMPONENT_LIST", payload: -1 });
+  };
+
   return (
     <div className="editcomponent">
       {state.componentsList[state.selectedComponentIndex] !== undefined ? (
+        state.componentsList[state.selectedComponentIndex].type === "card" ? (
+          <>
+            <label>Title </label>
+            <input
+              type="text"
+              className="editcomponent__input"
+              onChange={(e) => handleChange(e, "content")}
+              name="title"
+              defaultValue={
+                state.componentsList[state.selectedComponentIndex].content.title
+              }
+            />
+            <div className="editcomponent__seperator"></div>
+            <label className="editcomponent__uppercaseText">Dimensions </label>
+            <Row style={{ marginTop: 10 }}>
+              <Column flexGrow={5} style={{ marginRight: 20 }}>
+                <label>Height </label>
+                <input
+                  type="text"
+                  onChange={(e) => handleChange(e, "styles", "card")}
+                  style={{ width: "100%" }}
+                  className="editcomponent__input"
+                  name="height"
+                  defaultValue={
+                    state.componentsList[state.selectedComponentIndex].styles
+                      .card.height
+                  }
+                />
+              </Column>
+              <Column flexGrow={5}>
+                <label>Width </label>
+                <input
+                  type="text"
+                  style={{ width: "100%" }}
+                  onChange={(e) => handleChange(e, "styles", "card")}
+                  className="editcomponent__input"
+                  name="width"
+                  defaultValue={
+                    state.componentsList[state.selectedComponentIndex].styles
+                      .card.width
+                  }
+                />
+              </Column>
+            </Row>
+            <div className="editcomponent__seperator"></div>
+            <label className="editcomponent__uppercaseText">CONTENT</label>
+            <Row>
+              <Column>
+                <button
+                  className="editcomponent__iconButton"
+                  onClick={addTable}
+                >
+                  <FontAwesomeIcon icon={faTable} />
+                </button>
+              </Column>
+              <Column></Column>
+            </Row>
+          </>
+        ) : state.componentsList[state.selectedComponentIndex].type ===
+          "text" ? (
+          <>
+            <label>Title </label>
+            <input
+              type="text"
+              className="editcomponent__input"
+              onChange={(e) => handleChange(e, "content")}
+              name="text"
+              defaultValue={
+                state.componentsList[state.selectedComponentIndex].content.text
+              }
+            />
+            <label>Font Size </label>
+            <input
+              type="text"
+              style={{ width: "100%" }}
+              onChange={(e) => handleChange(e, "styles", "text")}
+              className="editcomponent__input"
+              name="fontSize"
+              defaultValue={
+                state.componentsList[state.selectedComponentIndex].styles.text
+                  .fontSize
+              }
+            />
+          </>
+        ) : null
+      ) : (
         <>
-          <label>Title </label>
-          <input
-            type="text"
-            className="editcomponent__input"
-            onChange={(e) => handleChange(e, "content")}
-            name="title"
-            defaultValue={
-              state.componentsList[state.selectedComponentIndex].content.title
-            }
-          />
+          <label className="editcomponent__uppercaseText">ADD COMPONENTS</label>
           <div className="editcomponent__seperator"></div>
-          <label className="editcomponent__uppercaseText">Dimensions </label>
-          <Row style={{ marginTop: 10 }}>
-            <Column flexGrow={5} style={{ marginRight: 20 }}>
-              <label>Height </label>
-              <input
-                type="text"
-                onChange={(e) => handleChange(e, "styles", "card")}
-                style={{ width: "100%" }}
-                className="editcomponent__input"
-                name="height"
-                defaultValue={
-                  state.componentsList[state.selectedComponentIndex].styles.card
-                    .height
-                }
-              />
-            </Column>
-            <Column flexGrow={5}>
-              <label>Width </label>
-              <input
-                type="text"
-                style={{ width: "100%" }}
-                onChange={(e) => handleChange(e, "styles", "card")}
-                className="editcomponent__input"
-                name="width"
-                defaultValue={
-                  state.componentsList[state.selectedComponentIndex].styles.card
-                    .width
-                }
-              />
-            </Column>
-          </Row>
-          <div className="editcomponent__seperator"></div>
-          <label className="editcomponent__uppercaseText">CONTENT</label>
-          <Row>
-            <Column>
-              <button className="editcomponent__iconButton" onClick={addTable}>
-                <FontAwesomeIcon icon={faTable} />
-              </button>
-            </Column>
-            <Column></Column>
-          </Row>
+
+          <button
+            onClick={() => addComponent("card")}
+            className="editcomponent__iconButton"
+            title="Card"
+          >
+            <FontAwesomeIcon icon={faCalculator} />
+          </button>
+          <button
+            onClick={() => addComponent("text")}
+            className="editcomponent__iconButton"
+            title="Text"
+          >
+            <FontAwesomeIcon icon={faTextHeight} />
+          </button>
         </>
+      )}
+      {state.selectedComponentIndex !== -1 ? (
+        <a
+          href="#"
+          className="editComponent__backButton"
+          onClick={() => {
+            handleBack();
+          }}
+        >
+          <FontAwesomeIcon icon={faCaretLeft} className="icon" />
+          Back
+        </a>
       ) : null}
     </div>
   );
