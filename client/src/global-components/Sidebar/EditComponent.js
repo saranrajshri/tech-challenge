@@ -130,7 +130,16 @@ const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
       });
     }
   };
-  console.log(data);
+
+  const handleTableChange = (e) => {
+    const dummyComponentList = state.componentsList;
+    const component = dummyComponentList[state.selectedComponentIndex];
+
+    component.content.components[0].data = JSON.parse(e.target.value);
+
+    dispatch({ type: "SET_COMPONENTS_LIST", payload: dummyComponentList });
+  };
+
   return (
     <div className="editcomponent">
       {state.componentsList[state.selectedComponentIndex] !== undefined ? (
@@ -190,6 +199,27 @@ const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
                 </button>
               </Column>
               <Column></Column>
+            </Row>
+            <Row>
+              {state.componentsList[state.selectedComponentIndex].content
+                .components[0] !== undefined ? (
+                <>
+                  <br />
+                  <textarea
+                    className="editcomponent__input"
+                    rows={15}
+                    onChange={(e) => {
+                      handleTableChange(e);
+                    }}
+                    value={JSON.stringify(
+                      state.componentsList[state.selectedComponentIndex].content
+                        .components[0].data,
+                      undefined,
+                      4
+                    )}
+                  ></textarea>
+                </>
+              ) : null}
             </Row>
           </>
         ) : state.componentsList[state.selectedComponentIndex].type ===
