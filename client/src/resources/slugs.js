@@ -1,4 +1,6 @@
 const SLUGS = {
+  //public
+  login: "/login",
   // private
   dashboard: "/dashboard",
 };

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { createUseStyles, useTheme } from "react-jss";
 import { Column, Row } from "simple-flexbox";
 import SidebarComponent from "../global-components/Sidebar/Sidebar";
 import HeaderComponent from "../global-components/Header/Header";
 import PrivateRoutes from "./PrivateRoutes";
+import { Context } from "../context/Context";
+import { userAuth } from "../actions/actions";
 
 const useStyles = createUseStyles({
   container: {
@@ -24,7 +26,14 @@ const useStyles = createUseStyles({
 function PrivateSection() {
   const theme = useTheme();
   const classes = useStyles({ theme });
+  const [state, dispatch] = useContext(Context);
 
+  useEffect(() => {
+    dispatch({
+      type: "SET_USER",
+      payload: JSON.parse(localStorage.getItem("TECH_USER_DATA")),
+    });
+  }, []);
   return (
     // <SidebarContext>
     <>

@@ -8,11 +8,14 @@ const initialState = {
   selectedComponentIndex: -1,
   reRenderCanvas: false,
   variables: [],
+  user: {},
 };
 
 // Reducers
 const reducer = (state, action) => {
   switch (action.type) {
+    case "SET_USER":
+      return { ...state, user: action.payload };
     case "SET_COMPONENTS_LIST":
       return { ...state, componentsList: action.payload };
     case "SET_SELECTED_COMPONENT_LIST":

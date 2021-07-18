@@ -38,3 +38,10 @@
   padding-top: 0.55em;
   margin-right: 0.5em;
 }
+
+.header__userIcon {
+  margin-top: 7px;
+  margin-left: 20px;
+  margin-right: 10px;
+  color: #34495e;
+}

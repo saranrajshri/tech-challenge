@@ -7,10 +7,13 @@ import PublicRoutes from "./PublicRoutes";
 function Routes() {
   const { pathname } = useLocation();
   // eslint-disable-next-line no-unused-vars
-  const [isUserLoggedIn, setUserLoggedIn] = useState(true);
+  const [isUserLoggedIn, setUserLoggedIn] = useState(false);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const token = localStorage.getItem("TECH_AUTH_TOKEN");
+    if (token !== null && token !== undefined && token !== "null") {
+      setUserLoggedIn(true);
+    }
   }, [pathname]);
 
   return isUserLoggedIn ? (

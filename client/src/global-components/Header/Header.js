@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Header.css";
 import { Row, Column } from "simple-flexbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,9 +8,12 @@ import {
   faShare,
   faToolbox,
   faTools,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { Context } from "../../context/Context";
 
 const Header = () => {
+  const [state] = useContext(Context);
   return (
     <div className="header">
       <Row>
@@ -39,6 +42,17 @@ const Header = () => {
               />{" "}
               Preview
             </button>
+            <FontAwesomeIcon icon={faUser} className="icon header__userIcon" />{" "}
+            <span
+              style={{
+                marginTop: 4,
+                marginLeft: 2,
+                marginRight: 20,
+                color: "#34495e",
+              }}
+            >
+              {state.user.name}
+            </span>
           </Row>
         </Column>
       </Row>

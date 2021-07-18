@@ -387,6 +387,7 @@ const DashBoard = () => {
     setComponentsList(updatedComponentsList);
     console.log(componentsList);
   };
+  console.log(state.user);
 
   const handleDrag = (e, d, componentClass) => {
     console.log("dknf");
