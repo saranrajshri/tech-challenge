@@ -1,4 +1,4 @@
-import React, { Suspense, useContext, useState } from "react";
+import React, { Component, Suspense, useContext, useState } from "react";
 import Card from "../../global-components/Card/Card";
 import "./DashBoard.css";
 import uuid from "react-uuid";
@@ -36,6 +36,8 @@ const DashBoard = () => {
               border: "1px solid #cecece",
               width: 400,
               position: "absolute",
+              top: 0,
+              left: 0,
               userSelect: "none",
             },
             cardHeader: {
@@ -86,6 +88,13 @@ const DashBoard = () => {
           id: uuid(),
           type: "graph",
           chartType: "line",
+          styles: {
+            position: {
+              position: "absolute",
+              top: 0,
+              left: 0,
+            },
+          },
           data: {
             series: [
               {
@@ -141,6 +150,13 @@ const DashBoard = () => {
           id: uuid(),
           type: "graph",
           chartType: "bar",
+          styles: {
+            position: {
+              position: "absolute",
+              top: 0,
+              left: 0,
+            },
+          },
           data: {
             series: [
               {
@@ -240,6 +256,103 @@ const DashBoard = () => {
           },
         },
       ]);
+    } else if (componentType === "pieChart") {
+      setComponentsList([
+        ...componentsList,
+        {
+          id: uuid(),
+          type: "graph",
+          chartType: "pie",
+          styles: {
+            position: {
+              position: "absolute",
+              top: 0,
+              left: 0,
+            },
+          },
+          data: {
+            series: [44, 55, 13, 43, 22],
+            options: {
+              chart: {
+                width: 380,
+                type: "pie",
+              },
+              labels: ["Team A", "Team B", "Team C", "Team D", "Team E"],
+              responsive: [
+                {
+                  breakpoint: 480,
+                  options: {
+                    chart: {
+                      width: 200,
+                    },
+                    legend: {
+                      position: "bottom",
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      ]);
+    } else if (componentType === "areaChart") {
+      setComponentsList([
+        ...componentsList,
+        {
+          id: uuid(),
+          type: "graph",
+          chartType: "area",
+          styles: {
+            position: {
+              position: "absolute",
+              top: 0,
+              left: 0,
+            },
+          },
+          data: {
+            series: [
+              {
+                name: "STOCK ABC",
+                data: [],
+              },
+            ],
+            options: {
+              chart: {
+                type: "area",
+                height: 350,
+                zoom: {
+                  enabled: false,
+                },
+              },
+              dataLabels: {
+                enabled: false,
+              },
+              stroke: {
+                curve: "straight",
+              },
+
+              title: {
+                text: "Fundamental Analysis of Stocks",
+                align: "left",
+              },
+              subtitle: {
+                text: "Price Movements",
+                align: "left",
+              },
+              labels: [],
+              xaxis: {
+                type: "datetime",
+              },
+              yaxis: {
+                opposite: true,
+              },
+              legend: {
+                horizontalAlign: "left",
+              },
+            },
+          },
+        },
+      ]);
     }
   };
 
@@ -275,6 +388,23 @@ const DashBoard = () => {
     console.log(componentsList);
   };
 
+  const handleDrag = (e, d, componentClass) => {
+    console.log("dknf");
+    const dummyList = componentsList;
+    const component = componentsList[state.selectedComponentIndex];
+
+    // console.log(component);
+
+    component.styles[componentClass].left += d.deltaX;
+    component.styles[componentClass].top += d.deltaY;
+
+    dispatch({
+      type: "SET_COMPONENTS_LIST",
+      payload: dummyList,
+    });
+    console.log(state.componentsList);
+  };
+
   return (
     <div>
       <Row>
@@ -282,22 +412,24 @@ const DashBoard = () => {
           {componentsList.map((component) => {
             if (component.type === "card") {
               return (
-                <div
-                  onDoubleClick={() => {
-                    handleComponentClick(component.id);
-                  }}
-                >
-                  <Card
-                    id={component.id}
-                    customStyles={component.styles}
-                    content={component.content}
-                  />
-                </div>
+                <Draggable onDrag={(e, d) => handleDrag(e, d, "card")}>
+                  <div
+                    onClick={() => {
+                      handleComponentClick(component.id);
+                    }}
+                  >
+                    <Card
+                      id={component.id}
+                      customStyles={component.styles}
+                      content={component.content}
+                    />
+                  </div>
+                </Draggable>
               );
             } else if (component.type === "text") {
               return (
                 <div
-                  onDoubleClick={() => {
+                  onClick={() => {
                     handleComponentClick(component.id);
                   }}
                 >
@@ -311,12 +443,13 @@ const DashBoard = () => {
             } else if (component.type === "graph") {
               return (
                 <div
-                  onDoubleClick={() => {
+                  onClick={() => {
                     handleComponentClick(component.id);
                   }}
                 >
-                  <Draggable>
+                  <Draggable onDrag={(e, d) => handleDrag(e, d, "position")}>
                     <Chart
+                      style={component.styles.position}
                       options={component.data.options}
                       series={component.data.series}
                       type={component.chartType}

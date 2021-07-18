@@ -27,6 +27,7 @@ const Modal = ({ open, handleClose }) => {
     oldVariables.push({ name: formData.variable, data: formData.responseData });
 
     dispatch({ type: "SAVE_VARIABLES", payload: oldVariables });
+    handleClose();
   };
   if (open) {
     return (

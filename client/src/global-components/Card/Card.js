@@ -18,26 +18,24 @@ const Card = ({ customStyles, content, id }) => {
   };
 
   return (
-    <Draggable>
-      <div
-        style={{
-          ...customStyles.card,
-          border:
-            state.selectedComponentIndex !== -1
-              ? state.componentsList[state.selectedComponentIndex].id === id
-                ? "2px solid #cecece"
-                : customStyles.card.border
-              : customStyles.card.border,
-        }}
-      >
-        <div style={customStyles.cardHeader}>{content.title}</div>
-        <div style={customStyles.cardContent}>
-          {content.components.map((component, index) => {
-            return renderComponent(component, index);
-          })}
-        </div>
+    <div
+      style={{
+        ...customStyles.card,
+        border:
+          state.selectedComponentIndex !== -1
+            ? state.componentsList[state.selectedComponentIndex].id === id
+              ? "2px solid #cecece"
+              : customStyles.card.border
+            : customStyles.card.border,
+      }}
+    >
+      <div style={customStyles.cardHeader}>{content.title}</div>
+      <div style={customStyles.cardContent}>
+        {content.components.map((component, index) => {
+          return renderComponent(component, index);
+        })}
       </div>
-    </Draggable>
+    </div>
   );
 };
 

@@ -8,10 +8,14 @@ import {
   faBars,
   faCalculator,
   faCaretLeft,
+  faChartArea,
   faChartBar,
   faChartLine,
+  faChartPie,
+  faServer,
   faTable,
   faTextHeight,
+  faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 
 const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
@@ -217,17 +221,22 @@ const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
         ) : (
           // Graph options
           <>
-            <label>Title </label>
-            <input
-              type="text"
-              className="editcomponent__input"
-              onChange={(e) => handleGraphChange(e, "changeTitle")}
-              name="title"
-              defaultValue={
-                state.componentsList[state.selectedComponentIndex].data.options
-                  .title.text
-              }
-            />
+            {state.componentsList[state.selectedComponentIndex].data.options
+              .title !== undefined ? (
+              <>
+                <label>Title </label>
+                <input
+                  type="text"
+                  className="editcomponent__input"
+                  onChange={(e) => handleGraphChange(e, "changeTitle")}
+                  name="title"
+                  defaultValue={
+                    state.componentsList[state.selectedComponentIndex].data
+                      .options.title.text
+                  }
+                />
+              </>
+            ) : null}
 
             <label>Data </label>
             <textarea
@@ -243,7 +252,11 @@ const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
                 4
               )}
             ></textarea>
-            <select onChange={(e) => handleVariableChange(e)}>
+            <label className="editcomponent__label">Use variable : </label>
+            <select
+              onChange={(e) => handleVariableChange(e)}
+              className="editcomponent__input"
+            >
               <option value="---">----</option>
               {state.variables.map((variable, index) => {
                 return (
@@ -290,13 +303,39 @@ const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
           >
             <FontAwesomeIcon icon={faChartBar} />
           </button>
+          <button
+            onClick={() => addComponent("pieChart")}
+            className="editcomponent__iconButton"
+            title="Pie Chart"
+          >
+            <FontAwesomeIcon icon={faChartPie} />
+          </button>
+          <button
+            onClick={() => addComponent("areaChart")}
+            className="editcomponent__iconButton"
+            title="Area Chart"
+          >
+            <FontAwesomeIcon icon={faChartArea} />
+          </button>
           <br />
           <br />
 
           <label className="editcomponent__uppercaseText">VARIABLES </label>
           <div className="editcomponent__seperator"></div>
           {state.variables.map((variable, index) => {
-            return <p key={index}>{variable.name} </p>;
+            return (
+              <Row>
+                <Column vertical="center" flexGrow={9}>
+                  <p key={index}>{variable.name} </p>
+                </Column>
+                <Column vertical="center" flexGrow={2}>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    style={{ cursor: "pointer" }}
+                  />
+                </Column>
+              </Row>
+            );
           })}
           <div className="editcomponent__seperator"></div>
           <button
@@ -306,7 +345,8 @@ const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
               setModal(true);
             }}
           >
-            FETCH DATA
+            <FontAwesomeIcon icon={faServer} className="icon" />
+            {"  "}FETCH DATA
           </button>
           <br />
         </>
