@@ -28,3 +28,16 @@ body {
 .icon {
   margin-right: 0.3em;
 }
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --background-color: #f8f8f8;
+  /* --background-color: #f4f9ff; */
+  --dark-blue: #081d34;
+  --semi-dark-icon: #69798b;
+  --light-grey-white: #dddddd;
+  --greyish-cyan: #7f8c8d;
+  --prussian-blue: #093769;
+  --modal-green: #1abc9c;
+}

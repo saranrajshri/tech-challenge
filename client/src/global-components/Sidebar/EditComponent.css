@@ -57,3 +57,18 @@
 .editComponent__backButton:hover {
   text-decoration: underline;
 }
+
+.editcomponent__button {
+  background-color: #34495e;
+  color: #fff;
+  padding: 1em;
+  font-family: Poppins;
+  letter-spacing: 1px;
+  border: none;
+  outline: none;
+}
+
+.editcomponent__button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}

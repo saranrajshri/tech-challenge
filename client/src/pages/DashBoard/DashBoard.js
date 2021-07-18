@@ -7,10 +7,12 @@ import Draggable from "react-draggable";
 import Sidebar from "../../global-components/Sidebar/Sidebar";
 import { Row, Column } from "simple-flexbox";
 import Chart from "react-apexcharts";
+import Modal from "../../global-components/Modal/Modal";
 
 const DashBoard = () => {
   const [state, dispatch] = useContext(Context);
   const [componentsList, setComponentsList] = useState(state.componentsList);
+  const [isModalOpen, setModal] = useState(false);
 
   // Force Update hook
   const useForceUpdate = () => {
@@ -329,11 +331,18 @@ const DashBoard = () => {
         </Column>
         <Column flexGrow={3}>
           <Sidebar
+            setModal={setModal}
             reFetchComponentsList={reFetchComponentsList}
             addComponent={(componentType) => handleClick(componentType)}
           />
         </Column>
       </Row>
+      <Modal
+        open={isModalOpen}
+        handleClose={() => {
+          setModal(false);
+        }}
+      />
     </div>
   );
 };

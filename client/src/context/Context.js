@@ -7,6 +7,7 @@ const initialState = {
   componentsList: [],
   selectedComponentIndex: -1,
   reRenderCanvas: false,
+  variables: [],
 };
 
 // Reducers
@@ -36,9 +37,18 @@ const reducer = (state, action) => {
         state.componentsList[
           state.selectedComponentIndex
         ].data.options.title.text = action.payload.data.title;
+      } else if (action.payload.operation === "changeData") {
+        state.componentsList[state.selectedComponentIndex].data = JSON.parse(
+          action.payload.data
+        );
       }
       return { ...state };
 
+    case "SAVE_VARIABLES":
+      return {
+        ...state,
+        variables: action.payload,
+      };
     default:
       throw new Error();
   }

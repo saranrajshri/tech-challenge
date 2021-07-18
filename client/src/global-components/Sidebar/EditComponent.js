@@ -14,9 +14,10 @@ import {
   faTextHeight,
 } from "@fortawesome/free-solid-svg-icons";
 
-const EditComponent = ({ addComponent, reFetchComponentsList }) => {
+const EditComponent = ({ addComponent, setModal, reFetchComponentsList }) => {
   const [state, dispatch] = useContext(Context);
   const [componentsList, setComponentsList] = useState(state.componentsList);
+  const [data, setData] = useState({});
 
   const handleChange = (e, editKey, componentClass = "") => {
     dispatch({
@@ -105,8 +106,27 @@ const EditComponent = ({ addComponent, reFetchComponentsList }) => {
 
       // console.log(state.componentsList[state.selectedComponentIndex]);
       reFetchComponentsList();
+    } else if (operation === "changeData") {
+      dispatch({
+        type: "UPDATE_GRAPH",
+        payload: {
+          operation: "changeData",
+          data: e.target.value,
+        },
+      });
     }
   };
+
+  const handleVariableChange = (e) => {
+    if (e.target.value !== "---") {
+      const dataToFind = state.variables.map((variable) => {
+        if (variable.name === e.target.value) {
+          setData(variable.data);
+        }
+      });
+    }
+  };
+  console.log(data);
   return (
     <div className="editcomponent">
       {state.componentsList[state.selectedComponentIndex] !== undefined ? (
@@ -208,6 +228,33 @@ const EditComponent = ({ addComponent, reFetchComponentsList }) => {
                   .title.text
               }
             />
+
+            <label>Data </label>
+            <textarea
+              className="editcomponent__input"
+              rows={20}
+              onChange={(e) => handleGraphChange(e, "changeData")}
+              value={JSON.stringify(
+                data.series !== undefined || data[0] !== undefined
+                  ? data
+                  : state.componentsList[state.selectedComponentIndex].data,
+
+                undefined,
+                4
+              )}
+            ></textarea>
+            <select onChange={(e) => handleVariableChange(e)}>
+              <option value="---">----</option>
+              {state.variables.map((variable, index) => {
+                return (
+                  <option key={index} value={variable.name}>
+                    {variable.name}
+                  </option>
+                );
+              })}
+            </select>
+            <br />
+            <br />
           </>
         )
       ) : (
@@ -243,6 +290,25 @@ const EditComponent = ({ addComponent, reFetchComponentsList }) => {
           >
             <FontAwesomeIcon icon={faChartBar} />
           </button>
+          <br />
+          <br />
+
+          <label className="editcomponent__uppercaseText">VARIABLES </label>
+          <div className="editcomponent__seperator"></div>
+          {state.variables.map((variable, index) => {
+            return <p key={index}>{variable.name} </p>;
+          })}
+          <div className="editcomponent__seperator"></div>
+          <button
+            style={{ marginTop: 10, marginBottom: 20 }}
+            className="editcomponent__button"
+            onClick={() => {
+              setModal(true);
+            }}
+          >
+            FETCH DATA
+          </button>
+          <br />
         </>
       )}
       {state.selectedComponentIndex !== -1 ? (
