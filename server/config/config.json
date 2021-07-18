@@ -1,0 +1,10 @@
+{
+    "development": {
+        "MONGO_URI": "mongodb://127.0.0.1:27017/techchallenge",
+        "secret": "HwrhmoR0VSTNHkUqK+jdGcnc/d/mMCBkBHjMb6bj2+v+"
+    },
+    "production": {
+        "MONGO_URI": "<>",
+        "secret": "HwrhmoR0VSTNHkUqK+jdGcnc/d/mMCBkBHjMb6bj2+v+"
+    }
+}
