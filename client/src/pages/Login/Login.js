@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { userLogin } from "../../actions/actions";
+import "./Login.css";
+import { Row, Column } from "simple-flexbox";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
@@ -26,20 +28,36 @@ const Login = () => {
     }
   };
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="email"
-        onChange={handleChange}
-        name="email"
-      />
-      <input
-        type="password"
-        placeholder="password"
-        onChange={handleChange}
-        name="password"
-      />
-      <button onClick={handleSubmit}>Login</button>
+    <div style={{ backgroundColor: "#ecf0f1", height: "100vh" }}>
+      <Row>
+        <Column flexGrow={3}></Column>
+        <Column
+          flexGrow={6}
+          vertical="center"
+          horizontal="center"
+          className="login__form"
+        >
+          <h2 style={{ marginTop: 20 }}>Login into your account</h2>
+          <input
+            type="text"
+            placeholder="email"
+            onChange={handleChange}
+            name="email"
+            className="login__input"
+          />
+          <input
+            type="password"
+            placeholder="password"
+            onChange={handleChange}
+            name="password"
+            className="login__input"
+          />
+          <button onClick={handleSubmit} className="login__button">
+            Login
+          </button>
+        </Column>
+        <Column flexGrow={3}></Column>
+      </Row>
     </div>
   );
 };
