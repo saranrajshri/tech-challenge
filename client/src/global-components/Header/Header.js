@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import "./Header.css";
 import { Row, Column } from "simple-flexbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +11,12 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { Context } from "../../context/Context";
+import ShareModal from "../ShareModal/ShareModal";
 
 const Header = () => {
   const [state] = useContext(Context);
+  const [shareModal, setShareModal] = useState(false);
+
   return (
     <div className="header">
       <Row>
@@ -26,7 +29,12 @@ const Header = () => {
         <Column flexGrow={6}></Column>
         <Column flexGrow={3} horizontal="end">
           <Row className="header__rightButtonRow">
-            <button className="header__button">
+            <button
+              className="header__button"
+              onClick={() => {
+                setShareModal(true);
+              }}
+            >
               <FontAwesomeIcon
                 icon={faShare}
                 className="icon"
@@ -49,6 +57,7 @@ const Header = () => {
                 marginLeft: 2,
                 marginRight: 20,
                 color: "#34495e",
+                fontFamily: "Poppins",
               }}
             >
               {state.user.name}
@@ -56,6 +65,12 @@ const Header = () => {
           </Row>
         </Column>
       </Row>
+      <ShareModal
+        open={shareModal}
+        handleClose={() => {
+          setShareModal(false);
+        }}
+      />
     </div>
   );
 };
